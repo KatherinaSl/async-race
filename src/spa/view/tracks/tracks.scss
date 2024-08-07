@@ -1,0 +1,76 @@
+$text: #ffffff;
+$button-border: 2px solid darken(#db7093, 15%);
+$underline: #e7e8eb;
+$input-text: #000000;
+
+input[type="text"] {
+  border: none;
+  border-radius: 5px;
+
+  outline: none;
+  font-size: 1em;
+  color: $input-text;
+  height: 40px;
+  text-align: center;
+}
+
+input[type="color"] {
+  background: none;
+  width: 50px;
+  height: 50px;
+}
+
+.tracks {
+  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  .car-name {
+    font-size: 1.2em;
+    color: $text;
+  }
+
+  .car {
+    display: flex;
+    justify-content: space-between;
+
+    svg {
+      width: 100px;
+      height: 60px;
+    }
+
+    // .filter-color {
+    //   width: 100px;
+    //   filter: invert(75%) sepia(16%) saturate(6342%) hue-rotate(297deg)
+    //     brightness(90%) contrast(89%);
+    // }
+
+    img:last-child {
+      padding-right: 200px;
+    }
+  }
+
+  .underline {
+    height: 2px;
+    background: linear-gradient(to right, transparent 50%, $underline 50%);
+    background-size:
+      16px 2px,
+      100% 2px;
+  }
+}
+
+.nav-bar {
+  display: flex;
+  width: fit-content;
+  gap: 5px;
+
+  .button {
+    border: $button-border;
+    border-radius: 10px;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+}

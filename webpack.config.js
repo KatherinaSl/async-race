@@ -5,6 +5,7 @@ const CopyPlugin = require("copy-webpack-plugin");
 const EslintPlugin = require("eslint-webpack-plugin");
 
 module.exports = {
+  mode: "development",
   entry: {
     main: path.resolve(__dirname, "./src/index.ts"),
   },
@@ -32,6 +33,7 @@ module.exports = {
     open: true,
     host: "localhost",
     hot: false,
+    historyApiFallback: true,
   },
   module: {
     rules: [
@@ -41,14 +43,14 @@ module.exports = {
       },
       {
         test: /\.(css|scss)$/i,
-        use: ["style-loader", "css-loader"],
+        use: ["style-loader", "css-loader", "sass-loader"],
       },
       {
         test: /\.ts$/i,
         use: "ts-loader",
       },
       {
-        test: /\.(png|jp2|webp)$/,
+        test: /\.(svg|png|jp2|webp)$/,
         loader: "file-loader",
         options: {
           name: "[name].[ext]",

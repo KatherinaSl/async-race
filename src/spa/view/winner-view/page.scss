@@ -1,0 +1,34 @@
+$text: #ffffff;
+$table-border: 2px solid #cb3365;
+
+.winners-page {
+  .winners-page__title {
+    color: $text;
+    padding: 10px;
+    margin: 0;
+  }
+
+  .winners-page__number {
+    color: $text;
+    padding: 10px 0 30px 10px;
+    font-size: 1em;
+  }
+
+  .winners-rating {
+    color: $text;
+    width: fit-content;
+
+    .winners-rating__table {
+      border-collapse: collapse;
+
+      th {
+        width: 100px;
+        text-align: center;
+        border: $table-border;
+        padding: 10px;
+        vertical-align: middle;
+        font-size: 1.2em;
+      }
+    }
+  }
+}
