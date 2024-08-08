@@ -7,7 +7,6 @@ function buildSpa() {
   const header = new HeaderView();
   const garagePage = new GarageView();
   // const winnersPage = new WinnersView();
-
   body?.append(header.create(), garagePage.create());
   return body;
 }

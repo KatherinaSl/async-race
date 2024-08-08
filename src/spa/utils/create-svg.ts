@@ -1,21 +1,4 @@
 import { Car } from "../../data/data";
-// import carImg from "../../assets/img/car.svg";
-
-// export default function createSvgIcon(car: Car) {
-//   const SVG_NS = "http://www.w3.org/2000/svg";
-//   const XLINK_NS = "http://www.w3.org/1999/xlink";
-//   const svg: SVGSVGElement = document.createElementNS(SVG_NS, "svg");
-//   svg.id = `car-${car.id}`;
-//   //   svg.style.fill = `${car.color}`;
-//   svg.style.width = "100px";
-//   svg.style.height = "60px";
-//   //   svg.style.zIndex = "5";
-//   svg.style.fill = `${car.color}`;
-//   const use: SVGUseElement = document.createElementNS(SVG_NS, "use");
-//   use.setAttributeNS(XLINK_NS, "href", "../../assets/img/car.svg#zxc");
-//   svg.append(use);
-//   return svg;
-// }
 
 export default function createSvgIcon(car: Car): string {
   return `<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
@@ -24,7 +7,7 @@ export default function createSvgIcon(car: Car): string {
 <metadata>
 Created by potrace 1.15, written by Peter Selinger 2001-2017
 </metadata>
-<g id="zxc" transform="translate(0.000000,640.000000) scale(0.100000,-0.100000)"
+<g transform="translate(0.000000,640.000000) scale(0.100000,-0.100000)"
 fill=${car.color} stroke="none">
 <path d="M3565 5336 c-106 -30 -101 -26 -108 -111 -4 -42 -9 -80 -12 -85 -6
 -10 -246 -105 -590 -234 -448 -167 -1052 -415 -1173 -483 -78 -43 -193 -91

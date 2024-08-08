@@ -29,3 +29,22 @@ export function buildButton(
   button.append(p);
   return button;
 }
+
+export function createInput(
+  className: string,
+  type: string,
+  value?: string,
+  disabled?: boolean
+): HTMLInputElement {
+  const input = buildHTMLElement("input") as HTMLInputElement;
+  input.classList.add(className);
+  input.type = type;
+  if (value) {
+    input.value = value as string;
+  }
+  if (disabled) {
+    input.disabled = disabled;
+  }
+
+  return input;
+}

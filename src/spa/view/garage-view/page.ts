@@ -1,25 +1,16 @@
 import "./page.scss";
-import { buildHTMLElement, buildButton } from "../../utils/create-elements";
+import {
+  buildHTMLElement,
+  buildButton,
+  createInput,
+} from "../../utils/create-elements";
 import * as Constants from "../../constants";
-import { createCar } from "../../services/api-garage";
+import { getCars } from "../../services/api-garage";
 import TracksGeneration from "../tracks/tracks";
-
-function createButtonHadler() {
-  const carName = (
-    document.querySelector(".operations__create") as HTMLInputElement
-  ).value;
-
-  const carColor = (
-    document.querySelector(".operations__create-color") as HTMLInputElement
-  ).value;
-
-  if (carName) {
-    createCar({ name: carName, color: carColor }).then((car) => {
-      const track = new TracksGeneration();
-      document.querySelector(".garage-page")!.append(track.create(car));
-    });
-  }
-}
+import {
+  createButtonHadler,
+  updateButtonHandler,
+} from "../../services/handlers";
 
 export default class GarageView {
   public create(): HTMLElement {
@@ -34,6 +25,14 @@ export default class GarageView {
     const operationBar = this.creatOperationBar();
     garageTab.append(pageName, pageNumber, operationBar);
 
+    getCars(7, 1).then((cars) => {
+      const track = new TracksGeneration();
+      const garagePage = document.querySelector(".garage-page");
+      cars.forEach((car) => {
+        garagePage!.append(track.create(car));
+      });
+    });
+
     return garageTab;
   }
 
@@ -41,8 +40,8 @@ export default class GarageView {
     const div = buildHTMLElement("div", "operations");
     const firstRow = buildHTMLElement("form", "row");
     firstRow.id = "create-form";
-    const inputCreate = this.createInput("operations__create", "text");
-    const inputColorCreate = this.createInput(
+    const inputCreate = createInput("operations__create", "text");
+    const inputColorCreate = createInput(
       "operations__create-color",
       "color",
       Constants.BUTTON_PALLET_COLOR,
@@ -54,19 +53,20 @@ export default class GarageView {
 
     const secondRow = buildHTMLElement("form", "row");
     secondRow.id = "update-form";
-    const inputUpdate = this.createInput(
+    const inputUpdate = createInput(
       "operations__update",
       "text",
       undefined,
       true
     );
-    const inputColorUpdate = this.createInput(
-      "operations__create-color",
+    const inputColorUpdate = createInput(
+      "operations__update-color",
       "color",
       Constants.BUTTON_PALLET_COLOR,
       true
     );
-    const updateButton = buildButton(Constants.CRUD_UPDATE, "submit", true);
+    const updateButton = buildButton(Constants.CRUD_UPDATE, "button", true);
+    updateButton.addEventListener("click", updateButtonHandler);
 
     secondRow.append(inputUpdate, inputColorUpdate, updateButton);
 
@@ -78,24 +78,5 @@ export default class GarageView {
 
     div.append(firstRow, secondRow, thirdRow);
     return div;
-  }
-
-  private createInput(
-    className: string,
-    type: string,
-    value?: string,
-    disabled?: boolean
-  ): HTMLInputElement {
-    const input = buildHTMLElement("input") as HTMLInputElement;
-    input.classList.add(className);
-    input.type = type;
-    if (value) {
-      input.value = value as string;
-    }
-    if (disabled) {
-      input.disabled = disabled;
-    }
-
-    return input;
   }
 }
