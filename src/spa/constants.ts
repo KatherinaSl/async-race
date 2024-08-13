@@ -11,10 +11,12 @@ export const CRUD_RESET = "RESET";
 export const GENERATE_BUTTON = "GENERATE CARS";
 export const WINNERS_PAGE_TITLE = "Winners";
 export const APP_TITLE = "ASYNCRACE";
-// export const NAV_TO_WINNERS = "TO WINNERS";
-// export const NAV_TO_GARAGE = "TO GARAGE";
 export const TABLE_HEADER = ["Position", "Car", "Name", "Wins", "Time"];
 export const NAV_PAGES = {
   PAGE_GARAGE: "TO GARAGE",
   PAGE_WINNERS: "TO WINNERS",
+};
+export const NAV_PAGINATION = {
+  NEXT_PAGE: "NEXT",
+  PREV_PAGE: "PREV",
 };

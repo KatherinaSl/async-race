@@ -1,5 +1,6 @@
+import getRandomCar from "../../data/randomCars";
 import TracksGeneration from "../view/tracks/tracks";
-import { createCar, updateCar } from "./api-garage";
+import { createCar, getCars, updateCar } from "./api-garage";
 
 export function createButtonHadler(): void {
   const carName = (
@@ -16,6 +17,19 @@ export function createButtonHadler(): void {
       document.querySelector(".garage-page")!.append(track.create(car));
     });
   }
+
+  getCars().then((response) => {
+    const track = new TracksGeneration();
+    const garagePage = document.querySelector(".garage-page");
+    const numberOfCars = response.totalCount;
+
+    response.cars.forEach((car) => {
+      garagePage!.append(track.create(car));
+    });
+
+    document.querySelector(".garage-page__title")!.textContent =
+      `Garage (${numberOfCars})`;
+  });
 }
 
 export function updateButtonHandler() {
@@ -38,4 +52,26 @@ export function updateButtonHandler() {
       carItem.querySelector("g")?.setAttribute("fill", car.color);
     }
   );
+}
+
+export function generateButtonHandler() {
+  const cars = getRandomCar();
+
+  Promise.allSettled(cars.map((car) => createCar(car))).then(() => {
+    getCars().then((response) => {
+      document.querySelectorAll(".tracks").forEach((el) => el.remove());
+
+      const track = new TracksGeneration();
+      const garagePage = document.querySelector(".garage-page");
+      response.cars.forEach((car) => {
+        garagePage!.append(track.create(car));
+      });
+
+      const numberOfCars = response.totalCount;
+      document.querySelector(".garage-page__title")!.textContent =
+        `Garage (${numberOfCars})`;
+    });
+  });
+
+  //   console.log(cars);
 }

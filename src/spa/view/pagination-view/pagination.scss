@@ -1,0 +1,17 @@
+.pagination {
+  display: flex;
+  width: fit-content;
+  gap: 30px;
+  padding: 20px;
+  align-self: center;
+
+  .button {
+    border-radius: 5px;
+    border: none;
+
+    p {
+      margin: 10px 30px;
+      font-size: 1em;
+    }
+  }
+}

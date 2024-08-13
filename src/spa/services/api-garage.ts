@@ -1,5 +1,4 @@
-import { Car } from "../../data/data";
-// import TracksGeneration from "../view/tracks/tracks";
+import { Car, GarageResponse } from "../../data/data";
 
 export const createCar = async (car: Car): Promise<Car> => {
   const url = "http://127.0.0.1:3000/garage";
@@ -19,20 +18,27 @@ export const createCar = async (car: Car): Promise<Car> => {
 };
 
 export const getCars = async (
-  carLimit: number,
-  pageLimit: number
-): Promise<Car[]> => {
-  const url = `http://127.0.0.1:3000/garage?_limit=${carLimit}&_page=${pageLimit}`;
+  pageNumber = 1,
+  carLimit = 7
+): Promise<GarageResponse> => {
+  const url = `http://127.0.0.1:3000/garage?_limit=${carLimit}&_page=${pageNumber}`;
   const response = await fetch(url);
+
   if (response.ok) {
-    const allCars = response.json();
-    return allCars;
+    const allCars = await response.json();
+    const totalCarsHeader = response.headers.get("X-Total-Count");
+
+    let totalCarsCount: number | undefined;
+    if (totalCarsHeader) {
+      totalCarsCount = Number(totalCarsHeader);
+    }
+
+    return { cars: allCars, totalCount: totalCarsCount };
   }
   throw new Error("Error while getting cars");
 };
 
 export const deleteCar = async (id: number): Promise<void> => {
-  console.log(id);
   const url = `http://127.0.0.1:3000/garage/${id}`;
   const response = await fetch(url, { method: "DELETE" });
   if (!response.ok) {
@@ -57,6 +63,15 @@ export const updateCar = async (car: Car): Promise<Car> => {
 
   throw new Error("Erro while updating car");
 };
+
+// export const allCars = getCars().then((response) => {
+//   const track = new TracksGeneration();
+//   const garagePage = document.querySelector(".garage-page");
+
+//   response.cars.forEach((car) => {
+//     garagePage!.append(track.create(car));
+//   });
+// });
 
 // todo check if correct
 // export const getCar = (id: number): Promise<Car> => {

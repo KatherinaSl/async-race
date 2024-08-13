@@ -6,31 +6,35 @@ import {
 } from "../../utils/create-elements";
 import * as Constants from "../../constants";
 import { getCars } from "../../services/api-garage";
-import TracksGeneration from "../tracks/tracks";
 import {
   createButtonHadler,
+  generateButtonHandler,
   updateButtonHandler,
 } from "../../services/handlers";
+import TracksGeneration from "../tracks/tracks";
 
 export default class GarageView {
   public create(): HTMLElement {
     const garageTab = buildHTMLElement("div", "garage-page");
-
     const pageName = buildHTMLElement("h1", "garage-page__title");
-    pageName.textContent = Constants.GARAGE_PAGE_TITLE;
-
     const pageNumber = buildHTMLElement("p", "garage-page__number");
-    pageNumber.textContent = "Page №";
+
+    pageNumber.textContent = `Page № 1`;
 
     const operationBar = this.creatOperationBar();
     garageTab.append(pageName, pageNumber, operationBar);
 
-    getCars(7, 1).then((cars) => {
+    getCars().then((response) => {
       const track = new TracksGeneration();
       const garagePage = document.querySelector(".garage-page");
-      cars.forEach((car) => {
+      const numberOfCars = response.totalCount;
+
+      response.cars.forEach((car) => {
         garagePage!.append(track.create(car));
       });
+
+      document.querySelector(".garage-page__title")!.textContent =
+        `Garage (${numberOfCars})`;
     });
 
     return garageTab;
@@ -74,6 +78,7 @@ export default class GarageView {
     const raceButton = buildButton(Constants.CRUD_RACE);
     const resetButton = buildButton(Constants.CRUD_RESET);
     const generateButton = buildButton(Constants.GENERATE_BUTTON);
+    generateButton.addEventListener("click", generateButtonHandler);
     thirdRow.append(raceButton, resetButton, generateButton);
 
     div.append(firstRow, secondRow, thirdRow);
