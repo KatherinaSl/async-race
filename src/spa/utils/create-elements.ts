@@ -48,3 +48,16 @@ export function createInput(
 
   return input;
 }
+
+export function createWinnerMessage(message: string) {
+  const div = buildHTMLElement("div", "winner-message");
+  const p = buildHTMLElement("p");
+  p.textContent = message;
+  div.append(p);
+  document.querySelector("body")?.append(div);
+
+  setTimeout(() => {
+    div.classList.add("hidden");
+    console.log("complete");
+  }, 8000);
+}

@@ -34,29 +34,17 @@ input[type="color"] {
   .car {
     display: flex;
     justify-content: space-between;
+    border-bottom: 3px dashed $underline;
 
     svg {
       width: 100px;
       height: 60px;
     }
 
-    // .filter-color {
-    //   width: 100px;
-    //   filter: invert(75%) sepia(16%) saturate(6342%) hue-rotate(297deg)
-    //     brightness(90%) contrast(89%);
-    // }
-
     img:last-child {
       padding-right: 200px;
+      z-index: 1;
     }
-  }
-
-  .underline {
-    height: 2px;
-    background: linear-gradient(to right, transparent 50%, $underline 50%);
-    background-size:
-      16px 2px,
-      100% 2px;
   }
 }
 

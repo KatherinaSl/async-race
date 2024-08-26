@@ -5,8 +5,12 @@ import "./tracks.scss";
 import { Car } from "../../../data/data";
 import createSvgIcon from "../../utils/create-svg";
 import { deleteCar, getCars } from "../../services/api-garage";
+import { engineDriveMode, engineSetting } from "../../services/api-engine";
+import makeCarAnimation from "../../services/car-animation";
 
 export default class TracksGeneration {
+  public static animationsMap = new Map();
+
   public create(car: Car) {
     const tracks = buildHTMLElement("div", "tracks");
     if (car.id) {
@@ -15,13 +19,11 @@ export default class TracksGeneration {
     const title = buildHTMLElement("p", "car-name");
     title.textContent = car.name;
     const carItem = buildHTMLElement("div", "car");
-
-    carItem.innerHTML += createSvgIcon(car);
+    const carImg = buildHTMLElement("div", "car-img");
+    carImg.innerHTML += createSvgIcon(car);
     const flagItem = buildHTMLElement("img") as HTMLImageElement;
     flagItem.src = flag as string;
-    carItem.append(flagItem);
-
-    const underline = buildHTMLElement("div", "underline");
+    carItem.append(carImg, flagItem);
 
     const controleButtons = buildHTMLElement("div", "nav-bar");
     const selectButton = buildButton(Constants.CONROL_BUTTON_SELECT, "button");
@@ -29,9 +31,11 @@ export default class TracksGeneration {
     const removeButton = buildButton(Constants.CONROL_BUTTON_REMOVE, "reset");
     removeButton.addEventListener("click", this.removeButtonHandler.bind(this));
     const startButton = buildButton(Constants.CONROL_BUTTON_START, "button");
+    startButton.addEventListener("click", this.startButtonHandler.bind(this));
     const stopButton = buildButton(Constants.CONROL_BUTTON_STOP, "reset", true);
+    stopButton.addEventListener("click", this.stopButtonHandler.bind(this));
     controleButtons.append(selectButton, removeButton, startButton, stopButton);
-    tracks.append(title, carItem, underline, controleButtons);
+    tracks.append(title, carItem, controleButtons);
     return tracks;
   }
 
@@ -71,11 +75,8 @@ export default class TracksGeneration {
     ) as HTMLElement;
 
     const carId = Number(selectedCar?.id.replace("car-", ""));
-    console.log(carId);
-    document
-      .querySelector("#update-form button")
-      ?.setAttribute("carid", carId.toString());
     const form = document.querySelector("#update-form") as HTMLFormElement;
+    form.querySelector("button")?.setAttribute("carid", carId.toString());
 
     form.childNodes.forEach((el) => {
       const child = el;
@@ -97,16 +98,57 @@ export default class TracksGeneration {
     if (carColor.length === 4) {
       const colorArr = carColor.slice(1).split("");
       const newColor = `#${colorArr[0]}${colorArr[0]}${colorArr[1]}${colorArr[1]}${colorArr[2]}${colorArr[2]}`;
-      (
-        document.querySelector(".operations__update-color") as HTMLInputElement
-      ).value = newColor;
+      (form.querySelector("input[type=color]") as HTMLInputElement).value =
+        newColor;
     } else {
-      (
-        document.querySelector(".operations__update-color") as HTMLInputElement
-      ).value = carColor;
+      (form.querySelector("input[type=color]") as HTMLInputElement).value =
+        carColor;
     }
 
-    (document.querySelector(".operations__update") as HTMLInputElement).value =
+    (form.querySelector("input[type=text]") as HTMLInputElement).value =
       carName;
+  }
+
+  private startButtonHandler(event: Event) {
+    const track = (event.target as HTMLElement).closest(".tracks");
+    const button = (event.target as HTMLElement).closest(".button");
+    const carId = Number(track?.id.replace("car-", ""));
+    (button as HTMLButtonElement).disabled = true;
+    (track!.querySelector(".button:last-child") as HTMLButtonElement).disabled =
+      false;
+    engineSetting(carId, "started")
+      .then((response) => {
+        const time = Math.round(response.distance / response.velocity);
+        return time;
+      })
+      .then((time) => {
+        // todo animation
+        const animation = makeCarAnimation(event, time, carId);
+        TracksGeneration.animationsMap.set(carId, animation);
+        engineDriveMode(carId, "drive").catch(() => {
+          console.log("response engine mode");
+          engineSetting(carId, "stopped");
+          animation.pause();
+        });
+      });
+  }
+
+  private stopButtonHandler(event: Event) {
+    const track = (event.target as HTMLElement).closest(".tracks");
+    const button = (event.target as HTMLElement).closest(".button");
+    const carId = Number(track?.id.replace("car-", ""));
+
+    engineSetting(carId, "stopped").then(() => {
+      const animation = TracksGeneration.animationsMap.get(carId);
+      animation.cancel();
+      (track?.querySelector(".car-img") as HTMLDivElement).style.transform =
+        "translateX(0px)";
+    });
+
+    console.log("stop handler");
+    (button as HTMLButtonElement).disabled = true;
+    (
+      track?.querySelector(".button:nth-child(3)") as HTMLButtonElement
+    ).disabled = false;
   }
 }

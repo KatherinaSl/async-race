@@ -6,12 +6,9 @@ import {
 } from "../../utils/create-elements";
 import * as Constants from "../../constants";
 import { getCars } from "../../services/api-garage";
-import {
-  createButtonHadler,
-  generateButtonHandler,
-  updateButtonHandler,
-} from "../../services/handlers";
+import * as Handlers from "../../services/handlers";
 import TracksGeneration from "../tracks/tracks";
+import PaginationView from "../pagination-view/pagination";
 
 export default class GarageView {
   public create(): HTMLElement {
@@ -19,12 +16,12 @@ export default class GarageView {
     const pageName = buildHTMLElement("h1", "garage-page__title");
     const pageNumber = buildHTMLElement("p", "garage-page__number");
 
-    pageNumber.textContent = `Page № 1`;
+    pageNumber.textContent = `Page №${PaginationView.pageNumber}`;
 
     const operationBar = this.creatOperationBar();
     garageTab.append(pageName, pageNumber, operationBar);
 
-    getCars().then((response) => {
+    getCars(PaginationView.pageNumber).then((response) => {
       const track = new TracksGeneration();
       const garagePage = document.querySelector(".garage-page");
       const numberOfCars = response.totalCount;
@@ -52,7 +49,7 @@ export default class GarageView {
       false
     );
     const createButton = buildButton(Constants.CRUD_CREATE, "button");
-    createButton.addEventListener("click", createButtonHadler);
+    createButton.addEventListener("click", Handlers.createButtonHadler);
     firstRow.append(inputCreate, inputColorCreate, createButton);
 
     const secondRow = buildHTMLElement("form", "row");
@@ -70,15 +67,19 @@ export default class GarageView {
       true
     );
     const updateButton = buildButton(Constants.CRUD_UPDATE, "button", true);
-    updateButton.addEventListener("click", updateButtonHandler);
+    updateButton.addEventListener("click", Handlers.updateButtonHandler);
 
     secondRow.append(inputUpdate, inputColorUpdate, updateButton);
 
     const thirdRow = buildHTMLElement("div", "row");
     const raceButton = buildButton(Constants.CRUD_RACE);
-    const resetButton = buildButton(Constants.CRUD_RESET);
+    raceButton.id = "racebutton";
+    raceButton.addEventListener("click", Handlers.raceButtonHandler.bind(this));
+    const resetButton = buildButton(Constants.CRUD_RESET, "reset", true);
+    resetButton.id = "resetbutton";
+    resetButton.addEventListener("click", Handlers.resetButtonHandler);
     const generateButton = buildButton(Constants.GENERATE_BUTTON);
-    generateButton.addEventListener("click", generateButtonHandler);
+    generateButton.addEventListener("click", Handlers.generateButtonHandler);
     thirdRow.append(raceButton, resetButton, generateButton);
 
     div.append(firstRow, secondRow, thirdRow);

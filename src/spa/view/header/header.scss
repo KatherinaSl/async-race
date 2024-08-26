@@ -16,7 +16,9 @@ $shadow: 0 5px 8px #a9a9a9;
     p {
       color: $text;
       text-align: center;
-      padding: 20px;
+      padding: 20px {
+        top: 120px;
+      }
       font-size: 2em;
       text-shadow:
         1px -1px $color,

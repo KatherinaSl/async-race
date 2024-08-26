@@ -63,23 +63,3 @@ export const updateCar = async (car: Car): Promise<Car> => {
 
   throw new Error("Erro while updating car");
 };
-
-// export const allCars = getCars().then((response) => {
-//   const track = new TracksGeneration();
-//   const garagePage = document.querySelector(".garage-page");
-
-//   response.cars.forEach((car) => {
-//     garagePage!.append(track.create(car));
-//   });
-// });
-
-// todo check if correct
-// export const getCar = (id: number): Promise<Car> => {
-//   const url = `http://127.0.0.1:3000/garage/${id}`;
-//   return fetch(url).then((response) => {
-//     if (response.ok) {
-//       return response.json();
-//     }
-//     throw new Error(`id: ${id}, status: ${response.status}`);
-//   });
-// };

@@ -29,15 +29,16 @@ export default class PaginationView {
     document
       .querySelector(".pagination .button:last-child")!
       .setAttribute("page", PaginationView.pageNumber.toString());
-
+    (document.querySelector("#racebutton") as HTMLButtonElement).disabled =
+      false;
+    (document.querySelector("#resetbutton") as HTMLButtonElement).disabled =
+      true;
     getCars(PaginationView.pageNumber).then((response) => {
       const track = new TracksGeneration();
       const garagePage = document.querySelector(".garage-page");
 
-      // todo redo start
       const totalCarsCount = response.totalCount as number;
       const totalPages = Math.ceil(totalCarsCount / 7);
-      //   console.log(totalPages);
       if (totalPages === PaginationView.pageNumber) {
         (
           document.querySelector(
@@ -45,7 +46,6 @@ export default class PaginationView {
           ) as HTMLButtonElement
         ).disabled = true;
       }
-      // todo redo end
 
       response.cars.forEach((car) => {
         garagePage!.append(track.create(car));

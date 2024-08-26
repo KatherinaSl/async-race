@@ -5,7 +5,9 @@ $button-border: 2px solid darken(#db7093, 15%);
 .garage-page {
   .garage-page__title {
     color: $text;
-    padding: 10px;
+    padding: 10px {
+      top: 50px;
+    }
     margin: 0;
   }
 
@@ -48,56 +50,6 @@ $button-border: 2px solid darken(#db7093, 15%);
       height: 50px;
     }
   }
-
-  // .tracks {
-  //   margin: 20px 0;
-  //   display: flex;
-  //   flex-direction: column;
-  //   gap: 10px;
-
-  // .car-name {
-  //   font-size: 1.2em;
-  //   color: $text;
-  // }
-
-  // .car {
-  //   display: flex;
-  //   justify-content: space-between;
-
-  //   .filter-white {
-  //     width: 100px;
-  //     filter: invert(100%) sepia(59%) saturate(2648%) hue-rotate(180deg)
-  //       brightness(106%) contrast(96%);
-  //   }
-
-  //   img:last-child {
-  //     padding-right: 200px;
-  //   }
-  // }
-
-  // .underline {
-  //   height: 2px;
-  //   background: linear-gradient(to right, transparent 50%, #e7e8eb 50%);
-  //   background-size:
-  //     16px 2px,
-  //     100% 2px;
-  // }
-  // }
-
-  // .nav-bar {
-  //   display: flex;
-  //   width: fit-content;
-  //   gap: 5px;
-
-  //   .button {
-  //     border: $button-border;
-  //     border-radius: 10px;
-
-  //     &:hover {
-  //       transform: scale(1.05);
-  //     }
-  //   }
-  // }
 }
 
 .button {
