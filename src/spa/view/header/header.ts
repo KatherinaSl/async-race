@@ -6,8 +6,14 @@ export default class HeaderView {
   public create(): HTMLElement {
     const header = buildHTMLElement("header", "header");
     const nav = buildHTMLElement("nav", "navigation");
-    const buttonGarage = buildButton(Constants.NAV_PAGES.PAGE_GARAGE);
+    const buttonGarage = buildButton(
+      Constants.NAV_PAGES.PAGE_GARAGE,
+      "button",
+      true
+    );
+    buttonGarage.id = "garagebutton";
     const buttonWinner = buildButton(Constants.NAV_PAGES.PAGE_WINNERS);
+    buttonWinner.id = "winnerbutton";
     const logo = buildHTMLElement("div", "logo");
     const title = buildHTMLElement("p");
     title.textContent = Constants.APP_TITLE;

@@ -34,6 +34,9 @@ module.exports = {
     host: "localhost",
     hot: false,
     historyApiFallback: true,
+    client: {
+      overlay: false,
+    },
   },
   module: {
     rules: [

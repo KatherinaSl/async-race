@@ -30,6 +30,7 @@
       {
         "endOfLine": "auto"
       }
-    ]
+    ],
+    "no-param-reassign": ["error", { "props": false }]
   }
 }

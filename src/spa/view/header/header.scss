@@ -1,6 +1,7 @@
 $text: #ffffff;
 $color: #db7093;
-$button-border: 2px solid darken(#db7093, 15%);
+$button-border: 2px solid #cb3365;
+$button-disabled: 2px solid #b74f72;
 $shadow: 0 5px 8px #a9a9a9;
 
 .header {
@@ -32,6 +33,11 @@ $shadow: 0 5px 8px #a9a9a9;
     top: 5px;
     display: flex;
 
+    .button:disabled {
+      background: #c9b0b0;
+      border: $button-disabled;
+    }
+
     .button {
       margin: 5px;
       display: flex;
@@ -47,12 +53,12 @@ $shadow: 0 5px 8px #a9a9a9;
         margin: 10px;
         font-size: 1em;
       }
-      &:hover {
-        transform: scale(1.05);
-      }
 
       &:active {
         transform: (translate(0, 2px));
+        &:hover {
+          transform: scale(1.05);
+        }
       }
     }
   }

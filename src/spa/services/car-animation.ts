@@ -25,12 +25,6 @@ export default function makeCarAnimation(
   );
 
   animation.onfinish = (): void => {
-    const startButton = (event.target as HTMLButtonElement).closest("button");
-    startButton!.disabled = false;
-    (document.querySelector("#racebutton") as HTMLButtonElement).disabled =
-      true;
-    (track!.querySelector(".button:last-child") as HTMLButtonElement).disabled =
-      true;
     carImg.style.transform = `translateX(calc(${trackWidth} - ${carWidth}))`;
     if (onFinishCallback) {
       onFinishCallback(carId);
@@ -40,6 +34,11 @@ export default function makeCarAnimation(
   animation.oncancel = (): void => {
     (document.querySelector("#racebutton") as HTMLButtonElement).disabled =
       false;
+    (document.querySelector("#startbutton") as HTMLButtonElement).disabled =
+      false;
+    (document.querySelector("#resetbutton") as HTMLButtonElement).disabled =
+      true;
+    (carImg as HTMLDivElement).style.transform = "translateX(0px)";
   };
   return animation;
 }

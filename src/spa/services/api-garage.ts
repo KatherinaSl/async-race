@@ -28,14 +28,23 @@ export const getCars = async (
     const allCars = await response.json();
     const totalCarsHeader = response.headers.get("X-Total-Count");
 
-    let totalCarsCount: number | undefined;
-    if (totalCarsHeader) {
-      totalCarsCount = Number(totalCarsHeader);
-    }
-
-    return { cars: allCars, totalCount: totalCarsCount };
+    return { cars: allCars, totalCount: Number(totalCarsHeader) };
   }
   throw new Error("Error while getting cars");
+};
+
+export const getCar = async (id: number): Promise<Car> => {
+  const url = `http://127.0.0.1:3000/garage/${id}`;
+  const response = await fetch(url, {
+    method: "GET",
+  });
+
+  if (response.ok) {
+    const car = response.json();
+    return car;
+  }
+
+  throw new Error("Error while getting car");
 };
 
 export const deleteCar = async (id: number): Promise<void> => {

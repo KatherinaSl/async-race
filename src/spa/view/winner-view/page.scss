@@ -17,17 +17,30 @@ $table-border: 2px solid #cb3365;
   .winners-rating {
     color: $text;
     width: fit-content;
+    margin-bottom: 50px;
 
     .winners-rating__table {
       border-collapse: collapse;
+      width: 80vw;
 
-      th {
+      #time,
+      #wins {
+        cursor: pointer;
+      }
+
+      th,
+      td {
         width: 100px;
         text-align: center;
         border: $table-border;
         padding: 10px;
         vertical-align: middle;
         font-size: 1.2em;
+
+        svg {
+          width: 40px;
+          height: 40px;
+        }
       }
     }
   }

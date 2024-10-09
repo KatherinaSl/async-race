@@ -1,4 +1,4 @@
-export const engineSetting = async (
+export const setupEngine = async (
   id: number,
   status: "started" | "stopped"
 ) => {

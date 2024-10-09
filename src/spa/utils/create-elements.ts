@@ -50,6 +50,7 @@ export function createInput(
 }
 
 export function createWinnerMessage(message: string) {
+  const messageVisibleTime = 8000;
   const div = buildHTMLElement("div", "winner-message");
   const p = buildHTMLElement("p");
   p.textContent = message;
@@ -58,6 +59,5 @@ export function createWinnerMessage(message: string) {
 
   setTimeout(() => {
     div.classList.add("hidden");
-    console.log("complete");
-  }, 8000);
+  }, messageVisibleTime);
 }

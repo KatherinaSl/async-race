@@ -1,6 +1,6 @@
+import { buildHTMLElement } from "./utils/create-elements";
 import GarageView from "./view/garage-view/page";
 import HeaderView from "./view/header/header";
-import PaginationView from "./view/pagination-view/pagination";
 import WinnersView from "./view/winner-view/page";
 
 function buildSpa() {
@@ -8,29 +8,38 @@ function buildSpa() {
   const header = new HeaderView();
   const garagePage = new GarageView();
   const winnersPage = new WinnersView();
-  const pagination = new PaginationView();
-  body?.append(header.create(), garagePage.create(), pagination.create());
-  if (garagePage) {
-    document
-      .querySelector(".navigation .button:last-child")
-      ?.addEventListener("click", () => {
-        document.querySelector(".garage-page")?.remove();
-        document.querySelector(".pagination")?.remove();
-        body.append(winnersPage.create(), pagination.create());
-      });
-  }
+  body?.append(header.create(), garagePage.create());
 
-  if (winnersPage) {
-    document
-      .querySelector(".navigation .button:first-child")
-      ?.addEventListener("click", () => {
-        document.querySelector(".winners-page")?.remove();
-        document.querySelector(".pagination")?.remove();
-        body.append(garagePage.create(), pagination.create());
-      });
-  }
+  document.querySelector("#winnerbutton")?.addEventListener("click", () => {
+    document.querySelector(".garage-page")?.remove();
+    (document.querySelector("#winnerbutton") as HTMLButtonElement).disabled =
+      true;
+    (document.querySelector("#garagebutton") as HTMLButtonElement).disabled =
+      false;
+    body.append(winnersPage.create());
+  });
+
+  document.querySelector("#garagebutton")?.addEventListener("click", () => {
+    document.querySelector(".winners-page")?.remove();
+    (document.querySelector("#winnerbutton") as HTMLButtonElement).disabled =
+      false;
+    (document.querySelector("#garagebutton") as HTMLButtonElement).disabled =
+      true;
+    body.append(garagePage.create());
+  });
 
   return body;
 }
+
+window.addEventListener("unhandledrejection", (event) => {
+  // console.log(`unhandled: ${event.reason}`);
+  const errorMessage = `Something went wrong. Please, contact system administrator`;
+  const div = buildHTMLElement("div", "error-message");
+  const p = buildHTMLElement("p");
+  p.textContent = errorMessage;
+  div.append(p);
+  document.querySelector("body")?.append(div);
+  event.preventDefault();
+});
 
 document.addEventListener("DOMContentLoaded", buildSpa);

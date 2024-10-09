@@ -6,11 +6,21 @@ export interface Car {
 
 export interface GarageResponse {
   cars: Car[];
-  totalCount?: number;
+  totalCount: number;
 }
 
 export interface Winner {
-  carid: number;
-  carTime: number;
-  carName?: string;
+  id: number;
+  time: number;
+  wins: number;
+}
+
+export interface WinnerResponse {
+  winners: Winner[];
+  totalCount: number;
+}
+
+export interface SortSettings {
+  sortBy: "time" | "wins";
+  order: "ASC" | "DESC";
 }
