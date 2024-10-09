@@ -3,6 +3,7 @@ name: NodeJS with Webpack
 on:
   push:
     branches: [ "async-race" ]
+  workflow_dispatch:
 
 jobs:
   build:
